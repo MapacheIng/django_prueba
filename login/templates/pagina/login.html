@@ -1,0 +1,16 @@
+{% extends 'main/prueba.html' %}
+{% block title %}inicio de sesion{% endblock  %}
+{% block content %}
+<form method="POST">
+{% csrf_token %}
+
+{% if messages %}
+    {% for mensaje in messages %}
+        <br>{{mensaje}}<br>
+    {% endfor %}
+{% endif %}
+
+{{form.as_p}}
+<button type='submit'>Inicio de Sesion</button>
+</form>
+{% endblock  %}

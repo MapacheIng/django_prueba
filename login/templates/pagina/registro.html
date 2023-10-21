@@ -1,0 +1,10 @@
+{% extends 'main/prueba.html' %}
+{% block title %}Registro{% endblock  %}
+{% block content %}
+<form method="POST">
+{% csrf_token %}
+{{error}}
+{{form.as_p}}
+<button type='submit'>Register</button>
+</form>
+{% endblock  %}

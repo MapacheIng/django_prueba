@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My site{% endblock %}</title> 
+</head>
+<body>
+    <nav>
+        <div >
+            <div>
+                <nav class="menu">
+                    <ul>
+                        <li>
+                            <a href="{% url 'inicio' %}">inicio</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'registro' %}">formulario de inicio</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'iniciar_sesion' %}">Iniciar Sesion</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'clave_puerta' %}">Clave</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'lista_puerta' %}">Lista</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+    </nav>
+    <div>
+        {% if user.is_authenticated %}
+
+        <p>autenticado usuario {{ user.username}}</p>
+        <a href="{% url 'cerrar_sesion' %}">cerrar sesion</a>
+
+
+        {% else %}
+
+        <p>no autenticado</p>
+        <a href="{% url 'iniciar_sesion' %}">iniciar sesion</a>
+        <a href="{% url 'registro' %}">Registrar</a>
+
+        {% endif %}
+    </div>
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

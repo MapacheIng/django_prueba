@@ -1,0 +1,14 @@
+{% extends 'main/prueba.html' %}
+{% block title %}Lista Clave puerta{% endblock  %}
+{% block content %}
+
+{% for clave in object_list %}
+<tr>
+    <td>{{clave.nombre_completo}}</td>
+    <td>{{clave.email}}</td>
+    <td>{{clave.telefono}}</td>
+    <td>{{clave.programa_academico}}</td>
+</tr>
+{% endfor %}
+
+{% endblock  %}
