@@ -92,22 +92,26 @@ class ClaveLista(ListView):
     template_name = 'pagina/lista_clave.html'
     
 
-def band_update(request, id):
-    band = Band.objects.get(id=id)
-    if request.method == "POST":
-        form = BandForm(request.POST, instance=band)
+# def band_update(request, id):
+#     band = Band.objects.get(id=id)
+#     if request.method == "POST":
+#         form = BandForm(request.POST, instance=band)
+#         if form.is_valid():
+#             form.save()
+#             return redirect("band_detail", band.id)
+#     else:
+#         form = BandForm(instance=band)
+#     return render(request, "listings/band_update.html", {"form": form})
+
+
+def actualizar_clave(request, id):
+    clave = Verificacion.objects.get(id=id)
+    if request.method == 'POST':
+        form = VerificacionForm(request.POST, instance=clave)
         if form.is_valid():
             form.save()
-            return redirect("band_detail", band.id)
+            return redirect('inicio')
     else:
-        form = BandForm(instance=band)
-    return render(request, "listings/band_update.html", {"form": form})
+        form = VerificacionForm(instance=clave)
+    return render(request, 'pagina/actualizacion_clave.html', {'form':form})
 
-
-# # vamos hacer la parte de editar la clave.
-# # buscar updateview django form
-# class ActualizarClave(UpdateView):
-#     model = Verificacion
-#     form_class = VerificacionForm
-#     template_name = 'pagina/actualizacion_clave.html'
-#     success_url = reverse_lazy('inicio')

@@ -2,13 +2,22 @@
 {% block title %}Lista Clave puerta{% endblock  %}
 {% block content %}
 
-{% for clave in object_list %}
-<tr>
-    <td>{{clave.nombre_completo}}</td>
-    <td>{{clave.email}}</td>
-    <td>{{clave.telefono}}</td>
-    <td>{{clave.programa_academico}}</td>
-</tr>
-{% endfor %}
+
+    <h1>Lista de estudiantes</h1>
+    <p>esta es la lista de los estudiantes actualizados</p>
+    {% for clave in object_list %}
+
+
+
+    <ul>
+        <li>
+            <p>{{clave.nombre_completo}}</p>
+            <p>{{clave.email}}</p>
+            <p>{{clave.telefono}}</p>
+            <a href="{% url "actualizar_clave" clave.id %}">[Edit]</a>        
+        </li>
+
+    </ul>
+    {% endfor %}
 
 {% endblock  %}
