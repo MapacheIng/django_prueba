@@ -1,0 +1,11 @@
+{% extends 'main/prueba.html' %}
+{% block title %}Verificacion clave puerta{% endblock  %}
+{% block content %}
+<form method="POST">
+    <h1>ingrse la clave</h1>
+    <p>{{error}}</p>
+{% csrf_token %}
+{{form.as_p}}
+<button type='submit'>Valida</button>
+</form>
+{% endblock  %}

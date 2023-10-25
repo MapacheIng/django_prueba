@@ -10,5 +10,6 @@ urlpatterns = [
     path('iniciar_sesion', views.logear, name='iniciar_sesion'),
     path('clave_puerta', views.crear_clave_puerta, name='clave_puerta'),
     path('lista_perta', views.ClaveLista.as_view(), name='lista_puerta'),
-    path('actualizacion_clave/<int:id>', views.actualizar_clave, name='actualizar_clave')
+    path('actualizacion_clave/<int:id>', views.actualizar_clave, name='actualizar_clave'),
+    path('verificacion_clave/', views.verificacion_clave, name='verificacion_clave'),
 ]

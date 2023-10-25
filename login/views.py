@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import RegisterForm, VerificacionForm
+from .forms import RegisterForm, VerificacionForm, VerificacionClave
 from .models import Verificacion
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -100,4 +100,19 @@ def actualizar_clave(request, id):
     else:
         form = VerificacionForm(instance=clave)
     return render(request, 'pagina/actualizacion_clave.html', {'form':form})
+
+def verificacion_clave(request):
+    if request.method == 'POST':
+        form = VerificacionClave(request.POST)
+        if form.is_valid():
+            valor = form.cleaned_data['clave']
+            existe_db = Verificacion.objects.filter(contrasena=valor).exists()
+            if existe_db:
+                print(Verificacion.objects.filter(contrasena=valor))
+            else:
+                return render(request, 'pagina/verificacion_clave.html', {'form': form, 'error': 'El valor no existe en la base de datos'})
+    else:
+        form = VerificacionClave()
+    
+    return render(request, 'pagina/verificacion_clave.html', {'form':form})
 

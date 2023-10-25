@@ -23,4 +23,8 @@ class VerificacionForm(forms.ModelForm):
             'lab_vision': forms.CheckboxInput(),
             'lab_robotica': forms.CheckboxInput(),
         }
+        
+        
+class VerificacionClave(forms.Form):
+    clave = forms.CharField(max_length=10, required=True)
 
