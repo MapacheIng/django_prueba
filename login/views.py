@@ -5,10 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.db import IntegrityError
 from django.contrib.auth.forms import AuthenticationForm
-from django.views.generic import UpdateView, ListView
-from django.urls import reverse_lazy
-
-
+from django.views.generic import ListView
 
 # Create your views here.
 def inicio(request):
@@ -92,18 +89,7 @@ class ClaveLista(ListView):
     template_name = 'pagina/lista_clave.html'
     
 
-# def band_update(request, id):
-#     band = Band.objects.get(id=id)
-#     if request.method == "POST":
-#         form = BandForm(request.POST, instance=band)
-#         if form.is_valid():
-#             form.save()
-#             return redirect("band_detail", band.id)
-#     else:
-#         form = BandForm(instance=band)
-#     return render(request, "listings/band_update.html", {"form": form})
-
-
+# actualizacion de datos
 def actualizar_clave(request, id):
     clave = Verificacion.objects.get(id=id)
     if request.method == 'POST':

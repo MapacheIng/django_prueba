@@ -14,7 +14,9 @@
             <p>{{clave.nombre_completo}}</p>
             <p>{{clave.email}}</p>
             <p>{{clave.telefono}}</p>
-            <a href="{% url "actualizar_clave" clave.id %}">[Edit]</a>        
+            {% if user == clave.usuario %}
+            <a href="{% url "actualizar_clave" clave.id %}">[Edit]</a>  
+            {% endif %}     
         </li>
 
     </ul>

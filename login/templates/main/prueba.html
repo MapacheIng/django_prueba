@@ -1,53 +1,60 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My site{% endblock %}</title> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>{% block title %}My site{% endblock %}</title>
 </head>
+
 <body>
-    <nav>
-        <div >
-            <div>
-                <nav class="menu">
-                    <ul>
-                        <li>
-                            <a href="{% url 'inicio' %}">inicio</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'registro' %}">formulario de inicio</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'iniciar_sesion' %}">Iniciar Sesion</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'clave_puerta' %}">Clave</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'lista_puerta' %}">Lista</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-    </nav>
-    <div>
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'inicio' %}">inicio</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'registro' %}">formulario de inicio</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'iniciar_sesion' %}">Iniciar Sesion</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'clave_puerta' %}">Clave</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'lista_puerta' %}">Lista</a>
+        </li>
         {% if user.is_authenticated %}
 
-        <p>autenticado usuario {{ user.username}}</p>
-        <a href="{% url 'cerrar_sesion' %}">cerrar sesion</a>
-
-
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'cerrar_sesion' %}">cerrar sesion</a>
+        </li>
         {% else %}
-
-        <p>no autenticado</p>
-        <a href="{% url 'iniciar_sesion' %}">iniciar sesion</a>
-        <a href="{% url 'registro' %}">Registrar</a>
-
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'registro' %}">Registrar</a>
+        </li>
+        {% endif %}
+    </ul>
+    <hr>
+    <div>
+        {% if user.is_authenticated %}
+            Autenticado: <strong>{{ user.username }}</strong>.
+        {% else %}
+            No autenticado.
         {% endif %}
     </div>
-    <div>
-        {% block content %}
-        {% endblock %}
-    </div>
+
+    {% block content %}
+    {% endblock %}
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
 </body>
+
 </html>
