@@ -27,4 +27,4 @@ class VerificacionForm(forms.ModelForm):
         
 class VerificacionClave(forms.Form):
     clave = forms.CharField(max_length=10, required=True)
-
+    

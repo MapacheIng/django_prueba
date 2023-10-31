@@ -1,0 +1,19 @@
+{% extends 'main/prueba.html' %}
+{% block title %}Lista Clave puerta{% endblock  %}
+{% block content %}
+
+
+    <h1>Lista de estudiantes</h1>
+    {% for registro in object_list %}
+
+
+
+    <ul>
+        <li>
+            <p>{{registro.verificacion.nombre_completo}}</p>
+            <p>{{registro.fecha_hora}}</p>
+
+    </ul>
+    {% endfor %}
+
+{% endblock  %}

@@ -1,0 +1,18 @@
+{% extends 'main/prueba.html' %}
+{% block title %}Validacion Correcta{% endblock  %}
+{% block content %}
+
+    <h1>{{valicacion}}</h1>
+    <h2>Bienvenido al laboratorio</h2>
+    {% if persona.lab_vision %}
+    <p>al laboratorio de Vision</p> <br>
+    {% endif %}
+    {% if persona.lab_robotica %}
+    <p>al laboratorio de Robotica</p> <br>
+    {% endif %}
+
+    <h2>{{persona.nombre_completo}}</h2>
+
+    <a class="nav-link" href="{% url 'inicio' %}">Volver a inicio</a>
+
+{% endblock  %}

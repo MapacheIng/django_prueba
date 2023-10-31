@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm, VerificacionForm, VerificacionClave
-from .models import Verificacion
+from .models import Verificacion, RegistroAcceso
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.db import IntegrityError
@@ -87,7 +87,7 @@ def crear_clave_puerta(request):
 class ClaveLista(ListView):
     model = Verificacion
     template_name = 'pagina/lista_clave.html'
-    
+
 
 # actualizacion de datos
 def actualizar_clave(request, id):
@@ -108,11 +108,27 @@ def verificacion_clave(request):
             valor = form.cleaned_data['clave']
             existe_db = Verificacion.objects.filter(contrasena=valor).exists()
             if existe_db:
-                print(Verificacion.objects.filter(contrasena=valor))
+                persona = Verificacion.objects.filter(contrasena=valor).first()
+                registro = RegistroAcceso(verificacion=persona)
+                registro.save()
+                datos = {
+                    'form':form,
+                    'validacion': 'Valor valido',
+                    'error':'Valor no validos',
+                    'persona':persona
+                }
+                return render(request, 'pagina/validacion_clave.html', datos)
             else:
-                return render(request, 'pagina/verificacion_clave.html', {'form': form, 'error': 'El valor no existe en la base de datos'})
+                return render(request, 'pagina/verificacion_clave.html', {
+                    'form':form,
+                    'error':'Valor no validos',
+                })
     else:
         form = VerificacionClave()
     
     return render(request, 'pagina/verificacion_clave.html', {'form':form})
 
+
+class RegistroLista(ListView):
+    model = RegistroAcceso
+    template_name = 'pagina/lista_registro.html'
