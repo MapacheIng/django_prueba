@@ -1,16 +1,25 @@
 {% extends 'main/prueba.html' %}
 {% block title %}inicio de sesion{% endblock  %}
 {% block content %}
-<form method="POST">
-{% csrf_token %}
 
-{% if messages %}
-    {% for mensaje in messages %}
-        <br>{{mensaje}}<br>
-    {% endfor %}
-{% endif %}
-
-{{form.as_p}}
-<button type='submit'>Inicio de Sesion</button>
-</form>
+<main class='container'>
+    <div class='row'>
+        <div class='col-md-6 offset-md-3 mt-7'>
+            <form method="post" class="form-signin">
+                {% csrf_token %}
+                <h1 class="h3 mb-3 font-weight-normal text-center">Iniciar sesión</h1>
+                {% for field in form %}
+                    <label class="form-label">{{field.label}}</label>
+                    <input type="{{ field.field.widget.input_type }}" 
+                            class="form-control" 
+                            name="{{ field.name }}"
+                            autocomplete='off'><br/>
+                    {% endfor %}
+                <div class='text-center'>
+                    <button class="btn btn-lg btn-primary" type="submit">Iniciar sesión</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
 {% endblock  %}

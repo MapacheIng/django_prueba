@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.db import IntegrityError
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import ListView
+from django.core.paginator import Paginator
 
 # Create your views here.
 def inicio(request):
@@ -83,10 +84,26 @@ def crear_clave_puerta(request):
             })
 
 
-#listado de usuarios
-class ClaveLista(ListView):
-    model = Verificacion
-    template_name = 'pagina/lista_clave.html'
+# #listado de usuarios
+# class ClaveLista(ListView):
+#     model = Verificacion
+#     template_name = 'pagina/lista_clave.html'
+
+
+def lista_usuarios(request):
+    registros = Verificacion.objects.all()
+    
+    # configuracion de la paginacion
+    paginacion = Paginator(Verificacion.objects.all().order_by('-id'), 10)
+    page = request.GET.get('page')
+    registro_acceso = paginacion.get_page(page)
+    # num_paginas = 'a' * registro_acceso.paginator.num_pages
+    num_paginas = registro_acceso.paginator.page_range
+    
+    parametros = {'registros':registros,
+                    'paginacion':registro_acceso,
+                    'num_paginas':num_paginas}
+    return render(request, 'pagina/lista_clave.html', parametros)
 
 
 # actualizacion de datos
@@ -114,7 +131,6 @@ def verificacion_clave(request):
                 datos = {
                     'form':form,
                     'validacion': 'Valor valido',
-                    'error':'Valor no validos',
                     'persona':persona
                 }
                 return render(request, 'pagina/validacion_clave.html', datos)
@@ -129,6 +145,18 @@ def verificacion_clave(request):
     return render(request, 'pagina/verificacion_clave.html', {'form':form})
 
 
-class RegistroLista(ListView):
-    model = RegistroAcceso
-    template_name = 'pagina/lista_registro.html'
+
+def lista_registro(request):
+    registros = RegistroAcceso.objects.all()
+    
+    # configuracion de la paginacion
+    paginacion = Paginator(RegistroAcceso.objects.all().order_by('-id'), 5)
+    page = request.GET.get('page')
+    registro_acceso = paginacion.get_page(page)
+    # num_paginas = 'a' * registro_acceso.paginator.num_pages
+    num_paginas = registro_acceso.paginator.page_range
+    
+    parametros = {'registros':registros,
+                    'paginacion':registro_acceso,
+                    'num_paginas':num_paginas}
+    return render(request, 'pagina/verificacion.html', parametros)

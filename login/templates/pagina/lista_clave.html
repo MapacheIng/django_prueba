@@ -1,25 +1,79 @@
 {% extends 'main/prueba.html' %}
 {% block title %}Lista Clave puerta{% endblock  %}
+
 {% block content %}
 
 
-    <h1>Lista de estudiantes</h1>
-    <p>esta es la lista de los estudiantes actualizados</p>
-    {% for clave in object_list %}
 
 
+    <main class='container'>
+        <div class='row'>
+            <div class='col-md-6 offset-md-3'>
+                <h1 class="h3 mb-3 font-weight-normal text-center">Lista de Registro</h1>
+                <div>
+                    <table class="table table-hover table-dark table-bordered border-light">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center">Nombre completo</th>
+                                <th scope="col" class="text-center">correo</th>
+                                <th scope="col" class="text-center">telefono</th>
+                                <th scope="col" class="text-center">editar</th>
+                                </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for registro in paginacion %}
+                            <tr>
+                                <td scope="col" class="text-center">{{registro.nombre_completo }}</td>
+                                <td scope="col" class="text-center">{{registro.email }}</td>
+                                <td scope="col" class="text-center">{{registro.telefono }}</td>
+                                <td scope="col" class="text-center">{{registro.lab_vision }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <!-- 
+                    <br/><br/>
+                    <p>{{paginacion}}</p>
+                    <p>Anterior: {{ paginacion.has_previous }}</p>
+                    <p>Pagina Actual: {{ paginacion.number }}</p>
+                    <p>siguinte: {{ paginacion.has_next }}</p>
+                    -->
 
-    <ul>
-        <li>
-            <p>{{clave.nombre_completo}}</p>
-            <p>{{clave.email}}</p>
-            <p>{{clave.telefono}}</p>
-            {% if user == clave.usuario %}
-            <a href="{% url "actualizar_clave" clave.id %}">[Edit]</a>  
-            {% endif %}     
-        </li>
+                    
+                </div>
+                <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                    <!---->
+                        {% if paginacion.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page=1">&laquo Primero</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ paginacion.previous_page_number }}">Anterior</a></li>
+                            {% else %}
+                            <li class="page-item disabled"><a class="page-link" href="#">&laquo Primero</a></li>
+                            <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
+                        {% endif %}
 
-    </ul>
-    {% endfor %}
+                        <!--
+                        <li class="page-item disabled"><a class="page-link" href='#'>pagina {{paginacion.number}} de {{paginacion.paginator.num_pages}}</a></li>
+                        -->
+                        
+                        {% for numero in num_paginas %}
+                        <li class="page-item"><a class="page-link" href='?page={{numero}}'>{{numero}}</a></li>
+                        {% endfor %}
 
-{% endblock  %}
+                        {% if paginacion.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{paginacion.next_page_number}}">siguiente</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ paginacion.paginator.num_pages }}">Ultimo &raquo</a></li>
+                            {% else %}
+                            <li class="page-item disabled"><a class="page-link" href="#">siguiente</a></li>
+                            <li class="page-item disabled"><a class="page-link" href="#">Ultimo &raquo</a></li>
+                        {% endif %}
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </main>
+
+    
+{% endblock %}
