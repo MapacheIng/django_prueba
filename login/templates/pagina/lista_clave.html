@@ -17,6 +17,8 @@
                                 <th scope="col" class="text-center">Nombre completo</th>
                                 <th scope="col" class="text-center">correo</th>
                                 <th scope="col" class="text-center">telefono</th>
+                                <th scope="col" class="text-center">Autorizacion Vision</th>
+                                <th scope="col" class="text-center">Autorizacion Robotica</th>
                                 <th scope="col" class="text-center">editar</th>
                                 </div>
                             </tr>
@@ -28,6 +30,8 @@
                                 <td scope="col" class="text-center">{{registro.email }}</td>
                                 <td scope="col" class="text-center">{{registro.telefono }}</td>
                                 <td scope="col" class="text-center">{{registro.lab_vision }}</td>
+                                <td scope="col" class="text-center">{{registro.lab_robotica}}</td>
+                                <td scope="col" class="text-center"><a href="{% url "actualizar_clave" registro.id %}">Editar</a> </td>
                             </tr>
                             {% endfor %}
                         </tbody>

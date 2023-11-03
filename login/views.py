@@ -150,7 +150,7 @@ def lista_registro(request):
     registros = RegistroAcceso.objects.all()
     
     # configuracion de la paginacion
-    paginacion = Paginator(RegistroAcceso.objects.all().order_by('-id'), 5)
+    paginacion = Paginator(RegistroAcceso.objects.all().order_by('-id'), 10)
     page = request.GET.get('page')
     registro_acceso = paginacion.get_page(page)
     # num_paginas = 'a' * registro_acceso.paginator.num_pages

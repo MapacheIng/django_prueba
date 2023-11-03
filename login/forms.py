@@ -24,7 +24,7 @@ class VerificacionForm(forms.ModelForm):
         widgets = {
             'nombre_completo': forms.TextInput(attrs={'placeholder': 'Nombre completo', 'class':'form-control', 'autocomplete':'off'}),
             'email': forms.EmailInput(attrs={'placeholder': 'Correo electrónico', 'class':'form-control', 'autocomplete':'off'}),
-            'telefono': forms.TextInput(attrs={'placeholder': 'Teléfono', 'maxlength': '10', 'class':'form-control',}),
+            'telefono': forms.TextInput(attrs={'placeholder': 'Teléfono', 'maxlength': '10', 'class':'form-control', 'autocomplete':'off'}),
             'programa_academico': forms.TextInput(attrs={'placeholder': 'programa academico', 'class':'form-control', 'autocomplete':'off'}),
             'contrasena': forms.PasswordInput(attrs={'placeholder': 'Contraseña', 'class':'form-control',}),
             'rfid': forms.TextInput(attrs={'placeholder': 'RFID', 'maxlength': '10', 'class':'form-control', 'autocomplete':'off'}),
