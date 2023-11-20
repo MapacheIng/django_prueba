@@ -20,3 +20,6 @@ class Verificacion(models.Model):
 class RegistroAcceso(models.Model):
     verificacion = models.ForeignKey(Verificacion, on_delete=models.SET_NULL, null=True)
     fecha_hora = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f'{self.verificacion.nombre_completo} ingreso a esta hora {self.fecha_hora}'

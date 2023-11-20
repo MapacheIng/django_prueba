@@ -16,7 +16,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'registro' %}">formulario de inicio</a>
+            <a class="nav-link" href="{% url 'registro' %}">Registro</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'iniciar_sesion' %}">Iniciar Sesion</a>
@@ -33,12 +33,16 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'verificacion' %}">Lista entrada</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'prueba' %}">Prueba decorador</a>
+        </li>
+        <!-- el cerrado de sesion-->
         {% if user.is_authenticated %}
-
         <li class="nav-item">
             <a class="nav-link" href="{% url 'cerrar_sesion' %}">cerrar sesion</a>
         </li>
         {% else %}
+
         <li class="nav-item">
             <a class="nav-link" href="{% url 'registro' %}">Registrar</a>
         </li>

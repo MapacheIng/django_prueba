@@ -28,11 +28,12 @@ class VerificacionForm(forms.ModelForm):
             'programa_academico': forms.TextInput(attrs={'placeholder': 'programa academico', 'class':'form-control', 'autocomplete':'off'}),
             'contrasena': forms.PasswordInput(attrs={'placeholder': 'Contraseña', 'class':'form-control',}),
             'rfid': forms.TextInput(attrs={'placeholder': 'RFID', 'maxlength': '10', 'class':'form-control', 'autocomplete':'off'}),
-            'lab_vision': forms.CheckboxInput(attrs={'class':"form-check btn-check"}),
+            'lab_vision': forms.CheckboxInput(attrs={}),
             'lab_robotica': forms.CheckboxInput(),
         }
-        
-        
+
+
+
 class VerificacionClave(forms.Form):
     clave = forms.CharField(max_length=10, required=True)
     

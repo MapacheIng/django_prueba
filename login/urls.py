@@ -13,4 +13,5 @@ urlpatterns = [
     path('actualizacion_clave/<int:id>', views.actualizar_clave, name='actualizar_clave'),
     path('verificacion_clave/', views.verificacion_clave, name='verificacion_clave'),
     path('verificacion', views.lista_registro, name='verificacion'),
+    path('prueba', views.prueba_decorador, name='prueba'),
 ]

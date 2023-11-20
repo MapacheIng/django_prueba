@@ -1,16 +1,25 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm, VerificacionForm, VerificacionClave
 from .models import Verificacion, RegistroAcceso
+from .decorators import groups_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.db import IntegrityError
 from django.contrib.auth.forms import AuthenticationForm
-from django.views.generic import ListView
 from django.core.paginator import Paginator
+from django.contrib.auth.models import Group
 
 # Create your views here.
+
 def inicio(request):
-    return render(request, 'pagina/pagina_inicio.html')
+    user = request.user
+    nombre_grupo = None
+    if user.is_authenticated:
+        group = Group.objects.filter(user=user).first()
+        if group:
+            nombre_grupo = group.name
+    return render(request, 'pagina/pagina_inicio.html', {'nombre_grupo':nombre_grupo})
+    
 
 
 # registro de usuarios
@@ -84,11 +93,6 @@ def crear_clave_puerta(request):
             })
 
 
-# #listado de usuarios
-# class ClaveLista(ListView):
-#     model = Verificacion
-#     template_name = 'pagina/lista_clave.html'
-
 
 def lista_usuarios(request):
     registros = Verificacion.objects.all()
@@ -160,3 +164,13 @@ def lista_registro(request):
                     'paginacion':registro_acceso,
                     'num_paginas':num_paginas}
     return render(request, 'pagina/verificacion.html', parametros)
+
+@groups_required(['profesor',])
+def prueba_decorador(request):
+    user = request.user
+    nombre_grupo = None
+    if user.is_authenticated:
+        group = Group.objects.filter(user=user).first()
+        if group:
+            nombre_grupo = group.name
+    return render(request, 'pagina/pagina_inicio.html', {'nombre_grupo':nombre_grupo})
