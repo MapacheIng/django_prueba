@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegisterForm, VerificacionForm, VerificacionClave
 from .models import Verificacion, RegistroAcceso
 from .decorators import groups_required
@@ -8,6 +8,7 @@ from django.db import IntegrityError
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.paginator import Paginator
 from django.contrib.auth.models import Group
+from django.core.exceptions import ValidationError
 
 # Create your views here.
 
@@ -81,16 +82,19 @@ def crear_clave_puerta(request):
     else:
         try:
             form = VerificacionForm(request.POST)
-            clave_perta = form.save(commit=False)
-            clave_perta.usuario = request.user
+            clave_puerta = form.save(commit=False)
+            clave_puerta.usuario = request.user
             # hacer mostrar mensaje 
-            clave_perta.save()
+            
+            clave_puerta.save()
             return redirect('inicio')
         except ValueError:
             return render(request, 'pagina/clave_puerta.html', {
                 'form': VerificacionForm(),
                 'error':'Please provide valida data'
             })
+            
+
 
 
 
@@ -122,14 +126,29 @@ def actualizar_clave(request, id):
         form = VerificacionForm(instance=clave)
     return render(request, 'pagina/actualizacion_clave.html', {'form':form})
 
+
+# validacion de ingreso al laboratorio.
 def verificacion_clave(request):
     if request.method == 'POST':
         form = VerificacionClave(request.POST)
         if form.is_valid():
             valor = form.cleaned_data['clave']
-            existe_db = Verificacion.objects.filter(contrasena=valor).exists()
-            if existe_db:
+            
+            existe_db_clave = Verificacion.objects.filter(contrasena=valor).exists()
+            existe_db_rfid = Verificacion.objects.filter(rfid=valor).exists()
+            
+            if existe_db_clave:
                 persona = Verificacion.objects.filter(contrasena=valor).first()
+                registro = RegistroAcceso(verificacion=persona)
+                registro.save()
+                datos = {
+                    'form':form,
+                    'validacion': 'Valor valido',
+                    'persona':persona
+                }
+                return render(request, 'pagina/validacion_clave.html', datos)
+            elif existe_db_rfid:
+                persona = Verificacion.objects.filter(rfid=valor).first()
                 registro = RegistroAcceso(verificacion=persona)
                 registro.save()
                 datos = {
@@ -165,6 +184,23 @@ def lista_registro(request):
                     'num_paginas':num_paginas}
     return render(request, 'pagina/verificacion.html', parametros)
 
+
+# actualizacion de datos del usuario logeado
+def actualizar_datos(request):
+    usuario = Verificacion.objects.get(usuario=request.user)
+    
+    if request.method == 'POST':
+        form = VerificacionForm(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+            return redirect('inicio')
+        
+    else:
+        form = VerificacionForm(instance=usuario)
+        
+    return render(request, 'pagina/actualizar_datos.html', {'form':form})
+    
+    
 @groups_required(['profesor',])
 def prueba_decorador(request):
     user = request.user

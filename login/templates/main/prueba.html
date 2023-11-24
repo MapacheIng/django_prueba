@@ -41,6 +41,9 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'cerrar_sesion' %}">cerrar sesion</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'actualizar_datos' %}">Actializar datos</a>
+        </li>
         {% else %}
 
         <li class="nav-item">
@@ -51,7 +54,9 @@
     <hr>
     <div>
         {% if user.is_authenticated %}
-            Autenticado: <strong>{{ user.username }}</strong>.
+        <p>¡Hola, <strong>{{ user.username }}</strong>!</p>
+        <a href="{% url 'cerrar_sesion' %}" class="btn btn-outline-danger btn-sm">Cerrar sesión</a>
+        <a href="{% url 'actualizar_datos' %}" class="btn btn-outline-primary btn-sm">Actualizar datos</a>
         {% else %}
             No autenticado.
         {% endif %}

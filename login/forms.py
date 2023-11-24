@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Verificacion
+from django.core.exceptions import ValidationError
 
 class RegisterForm(UserCreationForm):
     
@@ -32,7 +33,13 @@ class VerificacionForm(forms.ModelForm):
             'lab_robotica': forms.CheckboxInput(),
         }
 
+    def clean_contrasena(self):
+        contrasena = self.cleaned_data.get('contrasena')
 
+        # Verificar que la contraseña solo contenga números
+        if not contrasena.isdigit():
+            raise ValidationError("La contraseña debe contener solo números.")
+        return contrasena
 
 class VerificacionClave(forms.Form):
     clave = forms.CharField(max_length=10, required=True)

@@ -8,7 +8,7 @@
 
     <main class='container'>
         <div class='row'>
-            <div class='col-md-6 offset-md-3'>
+            <div class='col-md-6 offset-md-2'>
                 <h1 class="h3 mb-3 font-weight-normal text-center">Lista de Registro</h1>
                 <div>
                     <table class="table table-hover table-dark table-bordered border-light">
@@ -20,6 +20,7 @@
                                 <th scope="col" class="text-center">Autorizacion Vision</th>
                                 <th scope="col" class="text-center">Autorizacion Robotica</th>
                                 <th scope="col" class="text-center">editar</th>
+                                <th scope="col" class="text-center">Permisos</th>
                                 </div>
                             </tr>
                         </thead>
@@ -32,6 +33,11 @@
                                 <td scope="col" class="text-center">{{registro.lab_vision }}</td>
                                 <td scope="col" class="text-center">{{registro.lab_robotica}}</td>
                                 <td scope="col" class="text-center"><a href="{% url "actualizar_clave" registro.id %}">Editar</a> </td>
+                                <td scope="col" class="text-center">
+                                    {% for group in registro.usuario.groups.all %}
+                                        {{ group.name }}{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>

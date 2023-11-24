@@ -14,4 +14,5 @@ urlpatterns = [
     path('verificacion_clave/', views.verificacion_clave, name='verificacion_clave'),
     path('verificacion', views.lista_registro, name='verificacion'),
     path('prueba', views.prueba_decorador, name='prueba'),
+    path('actualizar_datos/', views.actualizar_datos, name='actualizar_datos'),
 ]
