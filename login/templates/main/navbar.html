@@ -3,9 +3,11 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'registro' %}">Registro</a>
         </li>
+        {% if not user.is_authenticated %}
         <li class="nav-item">
             <a class="nav-link" href="{% url 'iniciar_sesion' %}">Iniciar Sesión</a>
         </li>
+        {% endif %}
         <li class="nav-item">
             <a class="nav-link" href="{% url 'lista_puerta' %}">Usuarios</a>
         </li>
@@ -24,9 +26,11 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'registro' %}">Registro</a>
         </li>
+        {% if not user.is_authenticated %}
         <li class="nav-item">
             <a class="nav-link" href="{% url 'iniciar_sesion' %}">Iniciar Sesión</a>
         </li>
+        {% endif %}
         <li class="nav-item">
             <a class="nav-link" href="{% url 'verificacion_clave' %}">Entrada</a>
         </li>
@@ -36,9 +40,11 @@
     </ul>
     {% else %}
     <ul class="navbar-nav">
+        {% if not user.groups.first.name == 'estudiante' %}
         <li class="nav-item">
             <a class="nav-link" href="{% url 'iniciar_sesion' %}">Iniciar Sesión</a>
         </li>
+        {% endif %}
         <li class="nav-item">
             <a class="nav-link" href="{% url 'verificacion_clave' %}">Entrada</a>
         </li>
