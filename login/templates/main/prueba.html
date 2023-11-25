@@ -6,70 +6,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>{% block title %}My site{% endblock %}</title>
+    <title>{% block title %}My Site{% endblock %}</title>
 </head>
 
 <body>
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'inicio' %}">inicio</a>
-        </li>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'inicio' %}">Inicio</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'registro' %}">Registro</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'iniciar_sesion' %}">Iniciar Sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'clave_puerta' %}">Clave</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'lista_puerta' %}">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'verificacion_clave' %}">Entrada</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'verificacion' %}">Lista Entrada</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'prueba' %}">Prueba Decorador</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'modificar_permisos' %}">Permisos</a>
+                </li>
+            </ul>
+            {% if user.is_authenticated %}
+            <div class="ml-auto">
+                <span class="navbar-text">
+                    ¡Hola, <strong>{{ user.username }}</strong>!
+                </span>
+                <a href="{% url 'cerrar_sesion' %}" class="btn btn-outline-danger btn-sm ml-2">Cerrar Sesión</a>
+                {% if user.verificacion %}
+                <a href="{% url 'actualizar_datos' %}" class="btn btn-outline-primary btn-sm ml-2">Actualizar Datos</a>
+                {% else %}
+                <a href="{% url 'clave_puerta' %}" class="btn btn-outline-success btn-sm ml-2">Crea tu Clave</a>
+                {% endif %}
+            </div>
+            {% else %}
+            <div class="ml-auto">
+                <span class="navbar-text">
+                    No autenticado.
+                </span>
+                <a href="{% url 'iniciar_sesion' %}" class="btn btn-outline-info btn-sm ml-2">Iniciar Sesion</a>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'registro' %}">Registro</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'iniciar_sesion' %}">Iniciar Sesion</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'clave_puerta' %}">Clave</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'lista_puerta' %}">Usuarios</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'verificacion_clave' %}">Entrada</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'verificacion' %}">Lista entrada</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'prueba' %}">Prueba decorador</a>
-        </li>
-        <!-- el cerrado de sesion-->
-        {% if user.is_authenticated %}
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'cerrar_sesion' %}">cerrar sesion</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'actualizar_datos' %}">Actializar datos</a>
-        </li>
-        {% else %}
-
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'registro' %}">Registrar</a>
-        </li>
-        {% endif %}
-    </ul>
     <hr>
-    <div>
-        {% if user.is_authenticated %}
-        <p>¡Hola, <strong>{{ user.username }}</strong>!</p>
-        <a href="{% url 'cerrar_sesion' %}" class="btn btn-outline-danger btn-sm">Cerrar sesión</a>
-        <a href="{% url 'actualizar_datos' %}" class="btn btn-outline-primary btn-sm">Actualizar datos</a>
-        {% else %}
-            No autenticado.
-        {% endif %}
+
+    <div class="container mt-3">
+        {% block content %}
+        {% endblock %}
     </div>
-
-    {% block content %}
-    {% endblock %}
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-
 </body>
 
 </html>

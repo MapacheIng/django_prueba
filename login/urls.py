@@ -15,4 +15,6 @@ urlpatterns = [
     path('verificacion', views.lista_registro, name='verificacion'),
     path('prueba', views.prueba_decorador, name='prueba'),
     path('actualizar_datos/', views.actualizar_datos, name='actualizar_datos'),
+    path('modificar_permisos/', views.permisos_usuarios, name='modificar_permisos'),
+    path('permisos_profesor/', views.permisos_profesor, name='modificar_permisos_profesor'),
 ]

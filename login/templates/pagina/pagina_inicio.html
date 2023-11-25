@@ -4,4 +4,16 @@
 {% block content %}
 <p> pagina de inicio </p>
 <p>algrupo que peternece este usuario es: {{nombre_grupo}}</p>
+{% if messages %}
+<div class="messages mt-3">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% if user.is_staff %}
+<a href="{% url 'modificar_permisos_profesor' %}" class="btn btn-outline-danger btn-sm ml-2">Permisos de todos</a>
+{% endif %}
 {% endblock  %}

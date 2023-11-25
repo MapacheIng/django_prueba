@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'login',
-    'bootstrap5',
+    'login.apps.MainConfig',
+    'bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -126,12 +126,3 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MESSAGE_TAGS = {
-    
-    mensaje_de_error.DEBUG: 'debug',
-    mensaje_de_error.INFO: 'info',
-    mensaje_de_error.SUCCESS: 'success',
-    mensaje_de_error.WARNING: 'warning',
-    mensaje_de_error.ERROR: 'danger',
-    
-}
