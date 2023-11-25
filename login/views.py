@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RegisterForm, VerificacionForm, VerificacionClave
+from .forms import RegisterForm, VerificacionForm, VerificacionClave, VerificacionProfesorForm
 from .models import Verificacion, RegistroAcceso
 from .decorators import groups_required
 from django.contrib.auth import login, logout, authenticate
@@ -9,6 +9,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.paginator import Paginator
 from django.contrib.auth.models import Group, User
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -24,13 +25,15 @@ def inicio(request):
 
 
 # registro de usuarios
+@login_required
+@groups_required(['profesor', 'delegado'])
 def registro(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             try:
                 user = form.save()
-                login(request, user)
+                # login(request, user)
                 return redirect('inicio')
             except IntegrityError:
                 messages.error(request, 'Este usuario ya existe.')
@@ -43,6 +46,7 @@ def registro(request):
     return render(request, 'pagina/registro.html', {'form': form})
 
 # cerrado de sesion
+@login_required
 def cerrar_sesion(request):
     # se importa la funcion para quitar el loggin
     logout(request)
@@ -73,6 +77,7 @@ def logear(request):
 
 
 # este codigo es propenso a mejoras y a modificaciones, pero por lo pronto sirve como esta.
+@login_required
 def crear_clave_puerta(request):
     # Verifica si el usuario ya tiene una clave de puerta
     if Verificacion.objects.filter(usuario=request.user).exists():
@@ -100,6 +105,8 @@ def crear_clave_puerta(request):
 
 
 # lista de las personas que tienen clave activa.
+@login_required
+@groups_required(['profesor',])
 def lista_usuarios(request):
     registros = Verificacion.objects.all()
     
@@ -117,15 +124,17 @@ def lista_usuarios(request):
 
 
 # actualizacion de datos
+@login_required
+@groups_required(['profesor',])
 def actualizar_clave(request, id):
-    clave = Verificacion.objects.get(id=id)
+    clave = get_object_or_404(Verificacion, id=id)
     if request.method == 'POST':
-        form = VerificacionForm(request.POST, instance=clave)
+        form = VerificacionProfesorForm(request.POST, instance=clave)
         if form.is_valid():
             form.save()
             return redirect('inicio')
     else:
-        form = VerificacionForm(instance=clave)
+        form = VerificacionProfesorForm(instance=clave)
     return render(request, 'pagina/actualizacion_clave.html', {'form':form})
 
 
@@ -173,6 +182,7 @@ def verificacion_clave(request):
 
 
 # lista de las personas que entran.
+@login_required
 def lista_registro(request):
     registros = RegistroAcceso.objects.all()
     # configuracion de la paginacion
@@ -191,6 +201,7 @@ def lista_registro(request):
 
 
 # actualizacion de datos del usuario logeado
+@login_required
 def actualizar_datos(request):
     usuario = Verificacion.objects.get(usuario=request.user)
     
@@ -218,6 +229,8 @@ def prueba_decorador(request):
     return render(request, 'pagina/pagina_inicio.html', {'nombre_grupo':nombre_grupo})
 
 
+@login_required
+@groups_required(['profesor',])
 def permisos_usuarios(request):
     if request.method == 'POST':
         estudiante = request.POST.get('estudiante')
@@ -282,7 +295,7 @@ def permisos_usuarios(request):
     return render(request, 'pagina/modificar_permisos.html', parametros)
     
 
-
+@login_required
 def permisos_profesor(request):
     user = request.user
     if user.is_staff:

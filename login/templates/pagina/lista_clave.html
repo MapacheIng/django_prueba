@@ -8,8 +8,8 @@
 
     <main class='container'>
         <div class='row'>
-            <div class='col-md-6 offset-md-2'>
-                <h1 class="h3 mb-3 font-weight-normal text-center">Lista de Registro</h1>
+            <div class='col-md-8 offset-md-2'>
+                <h1 class="h3 mb-2 font-weight-normal text-center">Lista de Registro</h1>
                 <div>
                     <table class="table table-hover table-dark table-bordered border-light">
                         <thead>
@@ -27,18 +27,44 @@
                         <tbody>
                             {% for registro in paginacion %}
                             <tr>
+                                
                                 <td scope="col" class="text-center">{{registro.nombre_completo }}</td>
                                 <td scope="col" class="text-center">{{registro.email }}</td>
                                 <td scope="col" class="text-center">{{registro.telefono }}</td>
-                                <td scope="col" class="text-center">{{registro.lab_vision }}</td>
-                                <td scope="col" class="text-center">{{registro.lab_robotica}}</td>
-                                <td scope="col" class="text-center"><a href="{% url "actualizar_clave" registro.id %}">Editar</a> </td>
+                                <td scope="col" class="text-center">
+                                    {% if registro.lab_vision %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022"/>
+                                </svg>
+                                {% else %} 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                                </svg>
+                                {% endif %}
+                                    </td>
+                                    <td scope="col" class="text-center">
+                                        {% if registro.lab_robotica %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022"/>
+                                    </svg>
+                                    {% else %} 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                                    </svg>
+                                    {% endif %}
+                                        </td>
+                                {% if not registro.usuario.groups.first.name == 'profesor' %}
+                                <td scope="col" class="text-center"><a href="{% url "actualizar_clave" registro.id %}" class="btn btn-outline-primary btn-sm ml-2">Editar</a> </td>
+                                {% else %}
+                                <td></td>
+                                {% endif %}
                                 <td scope="col" class="text-center">
                                     {% for group in registro.usuario.groups.all %}
                                         {{ group.name }}{% if not forloop.last %}, {% endif %}
                                     {% endfor %}
                                 </td>
                             </tr>
+                            
                             {% endfor %}
                         </tbody>
                     </table>
@@ -52,7 +78,7 @@
 
                     
                 </div>
-                <nav aria-label="Page navigation example">
+                <nav aria-label="Page navigation example" class="d-flex justify-content-center">
                         <ul class="pagination">
                     <!---->
                         {% if paginacion.has_previous %}
