@@ -17,4 +17,6 @@ urlpatterns = [
     path('actualizar_datos/', views.actualizar_datos, name='actualizar_datos'),
     path('modificar_permisos/', views.permisos_usuarios, name='modificar_permisos'),
     path('permisos_profesor/', views.permisos_profesor, name='modificar_permisos_profesor'),
+    path('tarjeta_adquisicion/', views.clave_adquisicion, name='tarjeta_adquisicion'),
+    path('tarjeta_adquisicion_valores/<str:mi_dato>/', views.clave_adquisicion_valores, name='tarjeta_adquisicion_valores'),
 ]

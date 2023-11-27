@@ -10,6 +10,9 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import Group, User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
+
 
 # Create your views here.
 
@@ -166,6 +169,9 @@ def verificacion_clave(request):
                     'error':'Usuario no autorizado para el acceso.',
                 })
 
+
+            
+            
             # Registrar el acceso
             registro = RegistroAcceso(verificacion=persona)
             registro.save()
@@ -362,3 +368,75 @@ def permisos_profesor(request):
         return render(request, 'pagina/modificar_permisos_profesor.html', parametros)
     else:
         return render(request, 'pagina/acceso_denegado.html')
+
+
+def clave_adquisicion(request):
+    if request.method == 'POST':
+        valor = request.POST.get('data', '')
+
+        existe_db_clave = Verificacion.objects.filter(contrasena=valor).exists()
+        existe_db_rfid = Verificacion.objects.filter(rfid=valor).exists()
+
+        if existe_db_clave:
+            persona = Verificacion.objects.filter(contrasena=valor).first()
+            valor = persona.contrasena
+        elif existe_db_rfid:
+            persona = Verificacion.objects.filter(rfid=valor).first()
+            valor = persona.rfid
+        else:
+            return JsonResponse({'validacion': 'Valor no valido'})
+
+        if not (persona.lab_vision or persona.lab_robotica):
+            return JsonResponse({'validacion': 'Usuario no autorizado para el acceso.'})
+
+        # Registrar el acceso
+        registro = RegistroAcceso(verificacion=persona)
+        registro.save()
+
+        # Construir el diccionario para la respuesta JSON
+        response_data = {
+            'validacion': 'Valor valido',
+            'bienvenida': 'Bienvenido al laboratorio',
+            'lab_vision': persona.lab_vision,
+            'lab_robotica': persona.lab_robotica,
+            'nombre_completo': persona.nombre_completo,
+            'valor': valor
+        }
+
+        return JsonResponse(response_data)
+    else:
+        return JsonResponse({'error': 'Metodo no permitido'})
+
+
+
+def clave_adquisicion_valores(request, mi_dato):
+    
+    existe_db_clave = Verificacion.objects.filter(contrasena=mi_dato).exists()
+    existe_db_rfid = Verificacion.objects.filter(rfid=mi_dato).exists()
+    if existe_db_clave:
+        persona = Verificacion.objects.filter(contrasena=mi_dato).first()
+    elif existe_db_rfid:
+        persona = Verificacion.objects.filter(rfid=mi_dato).first()
+    else:
+        return JsonResponse({'validacion': 'Valor no valido'})
+    
+    # Verificar si lab_vision o lab_robotica están activados en la persona
+    if not (persona.lab_vision or persona.lab_robotica):
+        return JsonResponse({'validacion': 'Usuario no autorizado para el acceso.'})
+
+
+    
+    
+    # Registrar el acceso
+    registro = RegistroAcceso(verificacion=persona)
+    registro.save()
+    response_data = {
+        'validacion': 'Valor valido',
+        'bienvenida': 'Bienvenido al laboratorio',
+        'lab_vision': persona.lab_vision,
+        'lab_robotica': persona.lab_robotica,
+        'nombre_completo': persona.nombre_completo,
+        'valor': mi_dato
+        }
+
+    return JsonResponse(response_data)

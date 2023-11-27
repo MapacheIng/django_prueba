@@ -128,3 +128,5 @@ LOGIN_URL = '/iniciar_sesion'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# datos de mqtt
+
