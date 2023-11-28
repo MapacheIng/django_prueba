@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-@l=r3t8am0@#6k!29-9%*xa920vg2fv6s_1&k1!)(8c&0l*)_(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'gira-telemetria-ingreso-lab.onrender.com']
 
 
 # Application definition
