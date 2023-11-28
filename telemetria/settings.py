@@ -14,6 +14,9 @@ from pathlib import Path
 
 from django.contrib.messages import constants as mensaje_de_error
 
+import dj_database_url
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@l=r3t8am0@#6k!29-9%*xa920vg2fv6s_1&k1!)(8c&0l*)_('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == "True"
 
 ALLOWED_HOSTS = ['gira-telemetria-ingreso-lab.onrender.com']
 
@@ -79,12 +82,20 @@ WSGI_APPLICATION = 'telemetria.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
+if not DEBUG:
+    DATABASES = {
+	"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
+    
+else:
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
 
 
 # Password validation
