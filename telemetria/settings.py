@@ -83,20 +83,33 @@ WSGI_APPLICATION = 'telemetria.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if not DEBUG:
-    DATABASES = {
-	"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
-}
+# if not DEBUG:
+#     DATABASES = {
+# 	"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+# }
     
-else:
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+# else:
+#     DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'gira_telemetria_ingreso_lab_db_user',
+#         'USER': 'eduardo',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
+
+DATABASES = {
+    "default": dj_database_url.parse('postgres://gira_telemetria_ingreso_lab_db_user:Y8K7z4C0WPDUjXMCbbGe8w0MYSyRNPCn@dpg-cliknm9ll56s73f9l9s0-a.oregon-postgres.render.com/gira_telemetria_ingreso_lab_db')
 }
-
-
 
 
 # Password validation
