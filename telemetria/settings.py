@@ -83,6 +83,9 @@ WSGI_APPLICATION = 'telemetria.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# recordar que la base de datos como tal que estamos usando en es la virtual de postgresql
+# y lo que hacemos aqui es, que cuando no esta en produccion utiliza la locar y cuando estamos en produccion utiliza la virtual.
+# pero recomiendo solo modificar las linea de abajo solo para utilizar la virtual
 if not DEBUG:
     DATABASES = {
 	"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))

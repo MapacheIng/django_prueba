@@ -189,6 +189,7 @@ def verificacion_clave(request):
 
 # lista de las personas que entran.
 @login_required
+@groups_required(['profesor', 'delegado'])
 def lista_registro(request):
     registros = RegistroAcceso.objects.all()
     # configuracion de la paginacion
